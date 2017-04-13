@@ -1,0 +1,9 @@
+{
+  "name": "cfchallenge",
+  "version": "0.0.0",
+  "description": "CFChallenge",
+  "main": "server.js",
+  "author": {
+    "name": "Caleb"
+  }
+}
