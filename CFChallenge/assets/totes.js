@@ -3,20 +3,22 @@
   var createApp = function () {
   
     return new Vue({
-            template: '<div id="app">Here are the current races: {{ races }} </div > ',
+            template: '<div id="app">Here are the current races: {{ races }} </div >',
       data: {
-          counter: 0,
-          races: {
-              "RaceNum": 1,
-              "PostTime": "2017-04-17T16:20:00Z"
-          }
+          races: {},
+          entry: {}
       },
       created: function () {
-       /* var vm = this
-        setInterval(function () {
-          vm.counter += 1
-        }, 1000)*/
-      }
+        $http.get('/api/races', function(result) {
+          this.$set('races', result);
+          console.log(this.races)
+          //console.log(this.adapterLeft) returns-> [{"text":"BNC Male","value":"BNC Male"},{"text":"SMA Male","value":"SMA Male"}]
+          }.bind(this));
+      },
+     /* ready:function() {
+        this.getAllRaces()
+        //this.getEntryOne()
+      }*/
     })
   }
   if (typeof module !== 'undefined' && module.exports) {
@@ -24,4 +26,6 @@
   } else {
     this.app = createApp()
   }
+
+  
 }).call(this)

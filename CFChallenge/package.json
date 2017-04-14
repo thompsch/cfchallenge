@@ -11,8 +11,10 @@
   "author": "Caleb Thompson",
   "license": " ",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "express": "^4.14.0",
-    "node-cache": "^4.1.1",
+    "memory-cache": "^0.1.6",
+    "request": "^2.81.0",
     "vue": "^2.0.0-rc.3",
     "vue-server-renderer": "^2.0.0-rc.3"
   },
