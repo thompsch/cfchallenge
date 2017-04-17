@@ -3,9 +3,9 @@ var request = require('request')
 require ('dotenv').config()
 
 function fetchAllRaces() {
-	
+
 	var duration = parseInt(process.env.RACE_CACHE_DURATION) || 60000
-	
+
 	request({
 		url: process.env.RACE_API_URL,
 		json: true},
@@ -14,10 +14,15 @@ function fetchAllRaces() {
 		  if (!error && response.statusCode == 200) {
 		    allRaces = body
 
-		    myCache.cache.put(myCache.cacheKeys.ALLRACES, allRaces, duration, function (key, value) {
+				if (process.env.ENVIRONMENT=='prod') {
+		    	myCache.cache.put(myCache.cacheKeys.ALLRACES, allRaces, duration, function (key, value) {
 		    		console.log(key + ' removed.')
 		    		fetchAllRaces()
-		    })
+					}) 
+				} else {
+					myCache.cache.put(myCache.cacheKeys.ALLRACES, allRaces)
+				}
+
 		    console.log(myCache.cacheKeys.ALLRACES, 'updated.')
 
 				for (var r = 0; r< allRaces.length; r++) {
