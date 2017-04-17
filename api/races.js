@@ -2,6 +2,7 @@ var myCache = require('../cache')
 var apiProxy = require('../proxies')
 
 exports.list = function list (req, res, next) {
+
   var allRaces = myCache.cache.get(myCache.cacheKeys.ALLRACES);
   res.type('json')
   res.send(allRaces)

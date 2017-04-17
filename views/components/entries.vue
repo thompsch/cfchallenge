@@ -1,15 +1,13 @@
 <template lang='html'>
-  <div class='row'>
-      oh hai
-      {{raceid}}
+  <div>
+      <h1>Race {{raceid}}</h1>
+      <p>{{entries[raceid]}}</p>
   </div>
 </template>
 
-alert(raceid)
 <script>
-
 export default {
-    props: ['raceid']
+   props: ['raceid', 'entries']
 }
 </script>
 

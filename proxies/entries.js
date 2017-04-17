@@ -2,7 +2,14 @@ var myCache = require('../cache')
 var request = require('request')
 require ('dotenv').config()
 
-//TODO: fetch all entries
+
+function fetchAllEntries() {
+
+	var allRaces = myCache.cache.get(myCache.cacheKeys.ALLRACES)
+	for (var r = 0; r < allRaces.length; r++) {
+		fetchEntry(allRaces[r].RaceNum)
+	}
+}
 
 function fetchEntry(id) {
 
@@ -16,7 +23,7 @@ function fetchEntry(id) {
 
 		  if (!error && response.statusCode == 200) {
 
-		  	var entry = body.Entries
+		  	var entry = body
 		  	var cacheId = myCache.cacheKeys.ONEENTRY + id
 
 				//cache duration only if in prod
@@ -40,4 +47,5 @@ function fetchEntry(id) {
 		})
 }
 
+exports.fetchAllEntries = fetchAllEntries
 exports.fetchEntry = fetchEntry

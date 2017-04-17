@@ -1,12 +1,13 @@
 <template lang="html">
-    <div>
+    <div class='container'>
         <h1>{{title}}</h1>
-        <p>Welcome to the {{title}} demo.</p>
-        <races :races="races"></races>
+        <p>Tote Board for C.F. Downs</p>
+        <races :races="races" :entries="entries"></races>
     </div>
 </template>
 
 <script>
+
 export default {
     data: function() {
         return {

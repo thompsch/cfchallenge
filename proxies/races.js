@@ -2,7 +2,7 @@ var myCache = require('../cache')
 var request = require('request')
 require ('dotenv').config()
 
-function fetchAllRaces() {
+function fetchAllRaces(callback) {
 
 	var duration = parseInt(process.env.RACE_CACHE_DURATION) || 60000
 
@@ -30,10 +30,14 @@ function fetchAllRaces() {
 					myCache.cache.put(myCache.cacheKeys.ONERACE + race.RaceNum, race, duration)
 				}
 
+				callback(null)
+
 		  } else if (error) {
 		  	console.log('Error fetching races. ' + error)
+		  	callback(error)
 		  } else {
 		  	console.log('Error fetching races. ' + response.statusCode)
+		  	callback(response.statusCode)
 		  }
 		})
 }

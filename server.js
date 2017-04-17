@@ -25,6 +25,7 @@ app.set('vue', {
     componentsDir: path.join(__dirname, '/views/components'),
     defaultLayout: 'layout'
 });
+
 app.use(express.static(path.join(__dirname, 'assets')))
 
 //APIs
@@ -32,33 +33,25 @@ app.get('/api/races', apis.races.list)
 app.get('/api/races/:id', apis.races.get)
 app.get('/api/entry/:id', apis.entries.get)
 
-//TODO: get from proxies
-var races=[]
-
 var pageTitle = 'CF Tote Test';
 
 app.get('/', function(req, res){
     var scope = {
         data: {
             title: pageTitle,
-            races: races
+            races: [],
+            entries: []
         },
         vue: {
             head: {
                 title: pageTitle,
             },
-            components: ['races', 'racedetails']
-        },
-        mounted: function() {
-          this.$http.get('/api/races', function(data, status, request){
-           this.$set('races', data)
-           console.log('mounted')
-          })
-        }
-    };
+            components: ['races', 'entries']
+          }
+    }
+
     res.render('index', scope);
 });
-
 
 app.listen(8080, function (error) {
 
