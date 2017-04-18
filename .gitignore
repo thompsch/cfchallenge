@@ -5,3 +5,9 @@ npm-debug.log
 .idea
 
 /node_nodules
+/builds
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
