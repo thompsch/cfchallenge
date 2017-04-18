@@ -11,9 +11,9 @@
     <div class="tab-content">
         <!-- 
           we have 3 different views here:
-            active = odds but no results, OR no odds or results but ML
-            upcoming = no odds no results
-            recent = results
+            active = odds but no results, OR no odds or results but ML: (hasResults == false && hasOdss == true) || 
+            upcoming = no odds no results: (hasResults == false && hasOdds == false)
+            recent = (hasResults==true)
             
 
             race.hasOdds = bool
@@ -21,8 +21,7 @@
 
         -->
        <div v-for='race in races' role="tabpanel" class="tab-pane" :id="'race-' + race.RaceNum">
-            <entries v-bind:raceid="race.RaceNum" v-bind:entries="entries"></entries>
-            <results v-bind:raceid="race.RaceNum" v-bind:results="results"></results>
+
         </div>
 
       </div>
