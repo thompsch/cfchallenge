@@ -9,7 +9,17 @@
   </div>
   <div class='row'>
     <div class="tab-content">
+        <!-- 
+          we have 3 different views here:
+            active = odds but no results, OR no odds or results but ML
+            upcoming = no odds no results
+            recent = results
+            
 
+            race.hasOdds = bool
+            race.hasResults = bool 
+
+        -->
        <div v-for='race in races' role="tabpanel" class="tab-pane" :id="'race-' + race.RaceNum">
             <entries v-bind:raceid="race.RaceNum" v-bind:entries="entries"></entries>
             <results v-bind:raceid="race.RaceNum" v-bind:results="results"></results>
@@ -23,36 +33,20 @@
 <script>
 
 export default {
-    props: ['races', 'entries', 'results'],
+    props: ['races', 'custom'],
     methods: {
-        getEntries: function() {
-          var tempArr = [{}] //hack - gets around races not being 0-based
+      getCustomRaceObject() {
+        var tempArr = [{}] //hack - gets around races not being 0-based
 
           for (var r=0; r < this.races.length; r++) {
-            this.$http.get('/api/entries/' + this.races[r].RaceNum).then(response => {
+            this.$http.get('/api/custom/' + this.races[r].RaceNum).then(response => {
              tempArr.splice(r, 1, response.body)
               }, response => {
-                console.log('Error getting Entry')
+                console.log('Error getting Custom object')
               });
           }
-          this.entries = tempArr
-        },
-        getResults: function() {
-          var tempArr = [{}] //hack - gets around races not being 0-based
-
-          for (var r=0; r < this.races.length; r++) {
-            this.$http.get('/api/results/' + this.races[r].RaceNum).then(response => {
-            console.log('hi there!', response.body)
-            tempArr.splice(r, 1, response.body)
-            }, response => {
-              console.log('Error getting Results')
-            });
-          }
-
-          console.log('results')
-          console.log(tempArr)
-          this.results = tempArr
-        }
+          this.custom = tempArr
+      }
     },
     mounted: function() {
       this.$nextTick(function () {

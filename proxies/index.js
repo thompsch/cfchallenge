@@ -6,7 +6,6 @@ var myCache = require('../cache')
 var async = require('async')
 require ('dotenv').config()
 
-//TODO: clean up and use async and/or warterfall...
 exports.fetchAllData = function () {
 
 
@@ -20,8 +19,6 @@ exports.fetchAllData = function () {
 		console.log('DONE', result)
 	   
 	});
-
-
 }
 
 function buildCustomRaceObject(callback) {
@@ -51,7 +48,7 @@ function buildCustomRaceObject(callback) {
 
 		var results = myCache.cache.get(myCache.cacheKeys.ONERESULT + race.RaceNum)
 
-		if(results != null && results.ResultsResponse.Entries != null && results.ResultsResponse.Entries.Entry.length > 0) {
+		if(results != null && results.ResultsResponse.Entries != null && results.ResultsResponse.Message == null) {
 				var rTemp = results.ResultsResponse.Entries.Entry
 				for (var r = 0; r < rTemp.length; r ++) {
 					var pool = rTemp[r].Pools.Pool
@@ -61,12 +58,16 @@ function buildCustomRaceObject(callback) {
 
 		customRaceObject.id = race.RaceNum
 		customRaceObject.postTime = race.PostTime
+		customRaceObject.hasResults = false
 		customRaceObject.entries = []
 
 		var entries = myCache.cache.get(myCache.cacheKeys.ONEENTRY + race.RaceNum)
 
 		for (var e = 0; e < entries.Entries.length; e ++) {
 			var newEntry = entries.Entries[e]
+
+			if (newEntry.ML != null && newEntry.ML != '') customRaceObject.hasML = true
+				
 			newEntry.odds = oddsLookup[entries.Entries[e].ProgramNumber]
 			newEntry.result = resultsLookup[entries.Entries[e].ProgramNumber]
 			customRaceObject.entries.push(newEntry)
@@ -81,7 +82,7 @@ function buildCustomRaceObject(callback) {
 		for (var rl=0; rl < resultsLookup.length; rl++) {
 			var ptemp = resultsLookup[rl]
 			if (ptemp != null) {
-
+				customRaceObject.hasResults = true
 				if (ptemp.length==3) { 
 					customRaceObject.results.WN.push(rl)
 				} else if (ptemp.length==2) { 

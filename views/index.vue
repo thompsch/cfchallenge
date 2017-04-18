@@ -1,8 +1,8 @@
 <template lang="html">
     <div class='container'>
         <h1>{{title}}</h1>
-        <p>Tote Board for C.F. Downs</p>
-        <races :races="races" :entries="entries"></races>
+        <p>Tote Board for Wutsgotcha Downs</p>
+        <races :races="races"></races>
     </div>
 </template>
 

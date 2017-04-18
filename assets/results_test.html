@@ -1,71 +1,197 @@
 <html>
 <head>
  <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-            <script src="js/vue.js"></script>
-            <script src="js/vue-resource.js"></script>
-            <script src="js/jquery-3.2.1.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <link rel='stylesheet' href='css/bootstrap.min.css' />
+						<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+						<script src="js/vue.js"></script>
+						<script src="js/vue-resource.js"></script>
+						<script src="js/jquery-3.2.1.min.js"></script>
+						<script src="js/bootstrap.min.js"></script>
+						<link rel='stylesheet' href='css/bootstrap.min.css' />
 </head>
 <body>
 <div class='container'>
 <h2>Racing for **What date is this? **</h2>
 
-RACE <div class='row'>
-      <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" >
-              <a href='#race1' role="tab" data-toggle="tab">1</a>
-          </li>
-          <li role="presentation" >
-              <a href='#race2' role="tab" data-toggle="tab">2</a>
-          </li>
-          <li role="presentation" >
-              <a href='#race3' role="tab" data-toggle="tab">3</a>
-          </li>
-      </ul>
-  </div>
-  <div class='row'>
-    <div class="tab-content">
-       <div role="tabpanel" class="tab-pane active" id='race1'>
-       	<h1>Race ID</h1>
-       	<h4>race time (only)</h4>
-           <table class='table'>
-						<thead>
-							<th> </th>
-							<th>WIN</th>
-							<th>PLACE</th>
-							<th>SHOW</th>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{img} HorseId - Horse Name</td>
-								<td>$results pool WN</td>
-								<td>$results pool PL</td>
-								<td>$results pool SH</td>
-							</tr>
-							<tr>
-								<td>{img} HorseId - Horse Name</td>
-								<td> </td>
-								<td> </td>
-								<td>$results pool SH</td>
-							</tr>
-							<tr>
-								<td>{img} HorseId - Horse Name</td>
-								<td> </td>
-								<td> </td>
-								<td>$results pool SH</td>
-							</tr>
-						</tbody>
-					</table>
-					<span>Also Ran</span> <span>id - name, id - name, id - name</span>
-       </div>
-       <div role="tabpanel" class="tab-pane" id='race2'>
-           race2
-       </div>
+1) Lowest-numbered race with odds but no results (an "Active wagering race") 
+2) Lowest-numbered race with entries but no results and no odds (an "Upcoming" race)
+3) Highest-numbered race with results
+In my 1-2-3 above, this is case #1. If we have "Morning Line" / ML odds, we can show those, labeled as such. If we have no odds of any kind, then the Entries view alone is OK. 
+	<div class='row'>
+			<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" >
+							<a href='#active' role="tab" data-toggle="tab">Active Races</a>
+					</li>
+					<li role="presentation" >
+							<a href='#upcoming' role="tab" data-toggle="tab">Upcoming Races</a>
+					</li>
+					<li role="presentation" >
+							<a href='#recent' role="tab" data-toggle="tab">Recent Races</a>
+					</li>
+			</ul>
+	</div>
+	<div class='row'>
+		<div class="tab-content">
+			 <div role="tabpanel" class="tab-pane active" id='active'> <!--ACTIVE-->
+					<div class='row'>
+						<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" >
+										<a href='#race1' role="tab" data-toggle="tab">1</a>
+								</li>
+								<li role="presentation" >
+										<a href='#race2' role="tab" data-toggle="tab">3</a>
+								</li>
+								<li role="presentation" >
+										<a href='#race3' role="tab" data-toggle="tab">6</a>
+								</li>
+						</ul>
+				</div>
+				<div class='row'>
+					<div class="tab-content">
+						 <div role="tabpanel" class="tab-pane active" id='race1'>
+							<div>{{race time}}</div>
+								 <table class='table'>
+									<thead>
+										<th>ENTRIES</th>
+										<th>Current Odds</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											<td><div class='oddsBox'>53 - 1</div><div class=''>ML 15-1</div></td>
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											<td><div class='oddsBox'>53 - 1</div><div class=''>ML 15-1</div></td>
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											<td><div class='oddsBox'>53 - 1</div><div class=''>ML 15-1</div></td>
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											<td><div class='oddsBox'>53 - 1</div><div class=''>ML 15-1</div></td>
+										</tr>
+									</tbody>
+								</table>
+								<span>Also Ran</span> <span>id - name, id - name, id - name</span>
+						 </div>
+						 <div role="tabpanel" class="tab-pane" id='race2'>
+								 (another odds table...)
+						 </div>
+								<div role="tabpanel" class="tab-pane" id='race2'>
+								 (another odds table...)
+						 </div>
+						</div>
+				</div>
+			 </div>
+			 <div role="tabpanel" class="tab-pane" id='upcoming'> <!--UPCOMING-->
+				<div class='row'>
+						<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" >
+										<a href='#race1' role="tab" data-toggle="tab">1</a>
+								</li>
+								<li role="presentation" >
+										<a href='#race2' role="tab" data-toggle="tab">3</a>
+								</li>
+								<li role="presentation" >
+										<a href='#race3' role="tab" data-toggle="tab">6</a>
+								</li>
+						</ul>
+				</div>
+				<div class='row'>
+					<div class="tab-content">
+						 <div role="tabpanel" class="tab-pane active" id='race1'>
+							<div>{{race time}}</div>
+								 <table class='table'>
+									<thead>
+										<th>ENTRIES</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											<td>(we could also show all sorts of other info on the horse here)</td>
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+										
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											
+										</tr>
+										<tr>
+											<td><div class='entryHeader'>HorseId - Horse Name</div><div class=''>Ridden by</div><div class=''>Trained by</div></td>
+											
+										</tr>
+									</tbody>
+								</table>
+								<span>Also Ran</span> <span>id - name, id - name, id - name</span>
+						 </div>
+						 <div role="tabpanel" class="tab-pane" id='race2'>
+								 (another odds table...)
+						 </div>
+								<div role="tabpanel" class="tab-pane" id='race2'>
+								 (another odds table...)
+						 </div>
+						</div>
+				</div>
+			 </div>
+			 <div role="tabpanel" class="tab-pane" id='recent'>
+					<div class='row'>
+								<ul class="nav nav-tabs" role="tablist">
+										<li role="presentation" >
+												<a href='#race1' role="tab" data-toggle="tab">1</a>
+										</li>
+										<li role="presentation" >
+												<a href='#race2' role="tab" data-toggle="tab">2</a>
+										</li>
+										<li role="presentation" >
+												<a href='#race3' role="tab" data-toggle="tab">3</a>
+										</li>
+								</ul>
+						</div>
+						<div class='row'>
+							<div class="tab-content">
+								 <div role="tabpanel" class="tab-pane active" id='race1'>
+									<div>{{race time}}</div>
+										 <table class='table'>
+											<thead>
+												<th> </th>
+												<th>WIN</th>
+												<th>PLACE</th>
+												<th>SHOW</th>
+											</thead>
+											<tbody>
+												<tr>
+													<td>{img} HorseId - Horse Name</td>
+													<td>$results pool WN</td>
+													<td>$results pool PL</td>
+													<td>$results pool SH</td>
+												</tr>
+												<tr>
+													<td>{img} HorseId - Horse Name</td>
+													<td> </td>
+													<td>$results pool PL</td>
+													<td>$results pool SH</td>
+												</tr>
+												<tr>
+													<td>{img} HorseId - Horse Name</td>
+													<td> </td>
+													<td> </td>
+													<td>$results pool SH</td>
+												</tr>
+											</tbody>
+										</table>
+										<span>Also Ran</span> <span>id - name, id - name, id - name</span>
+								 </div>
+								 <div role="tabpanel" class="tab-pane" id='race2'>
+										 race2
+								 </div>
 
-      </div>
-  </div>
+								</div>
+						</div>
+			 </div>
+
 
 </div>
 </body>

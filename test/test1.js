@@ -3,11 +3,14 @@ var myCache = require('../cache')
 var proxies = require('../proxies')
 var parser = require('xml2json')
 
-var testRaces = [{RaceNum: 1,PostTime: "2017-04-17T09:45:00-07:00"}, {RaceNum: 8,PostTime: "2017-04-17T23:02:00-07:00"}]
+var testRaces = [{RaceNum: 1, PostTime: "2017-04-17T09:45:00-07:00"}, {RaceNum: 2, PostTime: "2017-04-17T23:02:00-07:00"}]
 myCache.cache.put(myCache.cacheKeys.ALLRACES, testRaces)
 
 var testOdds = "<OddsResponse><RaceNum>1</RaceNum><MinutesToPost>0</MinutesToPost><WinOdds><Entries><Entry><ProgramNumber>1</ProgramNumber><TextOdds> 8/5</TextOdds></Entry><Entry><ProgramNumber>2</ProgramNumber><TextOdds> 3/1</TextOdds></Entry><Entry><ProgramNumber>3</ProgramNumber><TextOdds> 11/1</TextOdds></Entry><Entry><ProgramNumber>4</ProgramNumber><TextOdds> 24/1</TextOdds></Entry><Entry><ProgramNumber>5</ProgramNumber><TextOdds> 34/1</TextOdds></Entry><Entry><ProgramNumber>6</ProgramNumber><TextOdds> 42/1</TextOdds></Entry><Entry><ProgramNumber>7</ProgramNumber><TextOdds> 5/2</TextOdds></Entry><Entry><ProgramNumber>8</ProgramNumber><TextOdds> 49/1</TextOdds></Entry><Entry><ProgramNumber>9</ProgramNumber><TextOdds> 6/1</TextOdds></Entry></Entries></WinOdds></OddsResponse>"
 myCache.cache.put(myCache.cacheKeys.ODDS + "1", parser.toJson(testOdds, {object:true}))
+
+var testOddsNo = "<OddsResponse><RaceNum>8</RaceNum><MinutesToPost>99</MinutesToPost><WinOdds><Entries></Entries></WinOdds></OddsResponse>"
+myCache.cache.put(myCache.cacheKeys.ODDS + "2", parser.toJson(testOddsNo, {object:true}))
 
 var testEntries = {
 RaceNum: 1,
@@ -206,11 +209,40 @@ ClaimingPrice: 5000
 }
 myCache.cache.put(myCache.cacheKeys.ONEENTRY + "1", testEntries)
 
-var testResults = "<ResultsResponse><RaceNum>1</RaceNum><Entries><Entry><ProgramNumber>5</ProgramNumber><Pools><Pool><PoolType>WN</PoolType><Base>1</Base><Value>2.4</Value></Pool><Pool><PoolType>PL</PoolType><Base>1</Base><Value>3.5</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.5</Value></Pool></Pools></Entry><Entry><ProgramNumber>2</ProgramNumber><Pools><Pool><PoolType>PL</PoolType><Base>1</Base><Value>5.63</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.11</Value></Pool></Pools></Entry><Entry><ProgramNumber>1</ProgramNumber><Pools><Pool><PoolType>SH</PoolType><Base>1</Base><Value>3.45</Value></Pool></Pools></Entry></Entries></ResultsResponse>"
+var testEntries2 = {
+RaceNum: 2,
+Entries: [
+{
+ProgramNumber: "100",
+PostPosition: 9,
+HorseName: "Clever Trevor",
+Jockey: "Bradley, Ira J.",
+Weight: "119 Lbs",
+Trainer: "Childers, Gary",
+Medication: "L",
+MedWeight: 119,
+Sire: "PETIONVILLE",
+Dam: "SO EMOTIONAL",
+Color: "CH",
+Age: 7,
+Sex: "G",
+BreedingLocation: "KY",
+Owner: "FLORENCE M KNIGHT",
+ClaimingPrice: 5000
+}
+]
+}
+myCache.cache.put(myCache.cacheKeys.ONEENTRY + "2", testEntries2)
 
+var testResults = "<ResultsResponse><RaceNum>1</RaceNum><Entries><Entry><ProgramNumber>5</ProgramNumber><Pools><Pool><PoolType>WN</PoolType><Base>1</Base><Value>2.4</Value></Pool><Pool><PoolType>PL</PoolType><Base>1</Base><Value>3.5</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.5</Value></Pool></Pools></Entry><Entry><ProgramNumber>2</ProgramNumber><Pools><Pool><PoolType>PL</PoolType><Base>1</Base><Value>5.63</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.11</Value></Pool></Pools></Entry><Entry><ProgramNumber>1</ProgramNumber><Pools><Pool><PoolType>SH</PoolType><Base>1</Base><Value>3.45</Value></Pool></Pools></Entry></Entries></ResultsResponse>"
 myCache.cache.put(myCache.cacheKeys.ONERESULT + "1", parser.toJson(testResults, {object:true}))
 
+var testResultsNo = "<ResultsResponse><RaceNum>2</RaceNum><Entries></Entries><Message>Results not ready.</Message></ResultsResponse>"
+myCache.cache.put(myCache.cacheKeys.ONERESULT + "2", parser.toJson(testResultsNo, {object:true}))
+
 var result = proxies.buildCustomRaceObject()
+
+console.log(result)
 
 describe('buildCustomRaceObject()', function() {
 	describe('the combined object...', function() {
@@ -222,6 +254,7 @@ describe('buildCustomRaceObject()', function() {
 		})
 		it('should have odds', function() {
 			assert.equal(true, result.hasOdds)
+			assert.equal(true, result.hasML)
 		})
 		it('should have 8 entries', function() {
 			assert.equal(10, result.entries.length)
@@ -232,6 +265,7 @@ describe('buildCustomRaceObject()', function() {
 			assert.deepEqual({ PoolType: 'SH', Base: '1', Value: '3.45' }, result.entries[0].result)
 		})
 		it('should have a results object', function() {
+			assert.equal(true, result.hasResults)
 			assert.deepEqual({ WN: [ 5 ], PL: [ 2 ], SH: [ 1 ] }, result.results)
 			assert.equal(5, result.results.WN[0])
 			assert.equal(2, result.results.PL[0])

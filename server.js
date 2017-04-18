@@ -34,8 +34,9 @@ app.get('/api/races/:id', apis.races.get)
 app.get('/api/entries/:id', apis.entries.get)
 app.get('/api/results/:id', apis.results.get)
 app.get('/api/odds/:id', apis.odds.get)
+app.get('/api/custom/:id', apis.custom.get)
 
-var pageTitle = 'CF Tote Test';
+var pageTitle = 'Wutsgotcha Downs';
 
 app.get('/', function(req, res){
     var scope = {
@@ -48,7 +49,7 @@ app.get('/', function(req, res){
             head: {
                 title: pageTitle,
             },
-            components: ['races', 'entries', 'results']
+            components: ['races', 'custom']
           }
     }
 

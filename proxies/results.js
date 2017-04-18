@@ -5,7 +5,7 @@ var async = require('async')
 require ('dotenv').config()
 
 function fetchAllResults(cb) {
-	console.log('CB', cb)
+
 	var races = myCache.cache.get(myCache.cacheKeys.ALLRACES)
 
 	async.each(races, function(race, callback) {
