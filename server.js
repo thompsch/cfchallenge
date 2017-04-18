@@ -56,7 +56,7 @@ app.get('/', function(req, res){
     res.render('index', scope);
 });
 
-app.listen(8080, function (error) {
+app.listen(8081, function (error) {
 
   //fetch all data on start
   var proxies = require('./proxies')
