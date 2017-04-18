@@ -1,17 +1,27 @@
 var myCache = require('../cache')
 var request = require('request')
+var async = require('async')
 require ('dotenv').config()
 
 
-function fetchAllEntries() {
+function fetchAllEntries(cb) {
+	
+	var races = myCache.cache.get(myCache.cacheKeys.ALLRACES)
 
-	var allRaces = myCache.cache.get(myCache.cacheKeys.ALLRACES)
-	for (var r = 0; r < allRaces.length; r++) {
-		fetchEntry(allRaces[r].RaceNum)
-	}
+	async.each(races, function(race, callback) {
+		fetchEntry(race.RaceNum, callback)
+	}, function(err) {
+    if( err ) {
+      console.log('Failed to get a race entry.')
+      cb(err)
+    } else {
+      console.log('All race entries have been processed successfully.')
+      cb()
+    }
+	});
 }
 
-function fetchEntry(id) {
+function fetchEntry(id, callback) {
 
 	var duration = parseInt(process.env.ENTRY_CACHE_DURATION) || 60000
 	var url = process.env.ENTRIES_API_URL.replace(/%\w+%/, id)
@@ -36,14 +46,16 @@ function fetchEntry(id) {
 					 myCache.cache.put(cacheId, entry)
 				}
 
-
 		    console.log(cacheId, 'updated.')
-
+		    callback(null)
 		  } else if (error) {
 		  	console.log('Error fetching entry. ' + error)
+		  	callback(error)
 		  } else {
 		  	console.log('Error fetching entry. ' + response.statusCode)
+		  	callback(response.statusCode)
 		  }
+		  return 1
 		})
 }
 

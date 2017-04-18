@@ -10,7 +10,9 @@ function fetchAllRaces(callback) {
 		url: process.env.RACE_API_URL,
 		json: true},
 		function (error, response, body) {
+
 			var allRaces
+
 		  if (!error && response.statusCode == 200) {
 		    allRaces = body
 
@@ -30,7 +32,7 @@ function fetchAllRaces(callback) {
 					myCache.cache.put(myCache.cacheKeys.ONERACE + race.RaceNum, race, duration)
 				}
 
-				callback(null)
+				callback()
 
 		  } else if (error) {
 		  	console.log('Error fetching races. ' + error)

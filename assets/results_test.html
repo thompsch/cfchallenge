@@ -1,0 +1,72 @@
+<html>
+<head>
+ <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <script src="js/vue.js"></script>
+            <script src="js/vue-resource.js"></script>
+            <script src="js/jquery-3.2.1.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <link rel='stylesheet' href='css/bootstrap.min.css' />
+</head>
+<body>
+<div class='container'>
+<h2>Racing for **What date is this? **</h2>
+
+RACE <div class='row'>
+      <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" >
+              <a href='#race1' role="tab" data-toggle="tab">1</a>
+          </li>
+          <li role="presentation" >
+              <a href='#race2' role="tab" data-toggle="tab">2</a>
+          </li>
+          <li role="presentation" >
+              <a href='#race3' role="tab" data-toggle="tab">3</a>
+          </li>
+      </ul>
+  </div>
+  <div class='row'>
+    <div class="tab-content">
+       <div role="tabpanel" class="tab-pane active" id='race1'>
+       	<h1>Race ID</h1>
+       	<h4>race time (only)</h4>
+           <table class='table'>
+						<thead>
+							<th> </th>
+							<th>WIN</th>
+							<th>PLACE</th>
+							<th>SHOW</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{img} HorseId - Horse Name</td>
+								<td>$results pool WN</td>
+								<td>$results pool PL</td>
+								<td>$results pool SH</td>
+							</tr>
+							<tr>
+								<td>{img} HorseId - Horse Name</td>
+								<td> </td>
+								<td> </td>
+								<td>$results pool SH</td>
+							</tr>
+							<tr>
+								<td>{img} HorseId - Horse Name</td>
+								<td> </td>
+								<td> </td>
+								<td>$results pool SH</td>
+							</tr>
+						</tbody>
+					</table>
+					<span>Also Ran</span> <span>id - name, id - name, id - name</span>
+       </div>
+       <div role="tabpanel" class="tab-pane" id='race2'>
+           race2
+       </div>
+
+      </div>
+  </div>
+
+</div>
+</body>
+</html>

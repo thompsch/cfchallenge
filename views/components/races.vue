@@ -9,9 +9,12 @@
   </div>
   <div class='row'>
     <div class="tab-content">
-        <div v-for='race in races' role="tabpanel" class="tab-pane" :id="'race-' + race.RaceNum">
+
+       <div v-for='race in races' role="tabpanel" class="tab-pane" :id="'race-' + race.RaceNum">
             <entries v-bind:raceid="race.RaceNum" v-bind:entries="entries"></entries>
+            <results v-bind:raceid="race.RaceNum" v-bind:results="results"></results>
         </div>
+
       </div>
   </div>
 </div>
@@ -20,19 +23,35 @@
 <script>
 
 export default {
-    props: ['races', 'entries'],
+    props: ['races', 'entries', 'results'],
     methods: {
         getEntries: function() {
           var tempArr = [{}] //hack - gets around races not being 0-based
 
           for (var r=0; r < this.races.length; r++) {
-            this.$http.get('/api/entry/' + this.races[r].RaceNum).then(response => {
+            this.$http.get('/api/entries/' + this.races[r].RaceNum).then(response => {
              tempArr.splice(r, 1, response.body)
               }, response => {
                 console.log('Error getting Entry')
               });
           }
           this.entries = tempArr
+        },
+        getResults: function() {
+          var tempArr = [{}] //hack - gets around races not being 0-based
+
+          for (var r=0; r < this.races.length; r++) {
+            this.$http.get('/api/results/' + this.races[r].RaceNum).then(response => {
+            console.log('hi there!', response.body)
+            tempArr.splice(r, 1, response.body)
+            }, response => {
+              console.log('Error getting Results')
+            });
+          }
+
+          console.log('results')
+          console.log(tempArr)
+          this.results = tempArr
         }
     },
     mounted: function() {
@@ -40,6 +59,7 @@ export default {
           this.$http.get('/api/races').then(response => {
             this.races = response.body
             this.getEntries()
+            this.getResults()
           }, response => {
             console.log('Error getting Races')
           });

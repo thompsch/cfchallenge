@@ -6,19 +6,23 @@
     "cp:prod": "shx cp node_modules/vue/dist/vue.min.js assets/vue.js",
     "serve": "cross-env VUE_ENV=server nodemon --watch . --ext js,html server.js",
     "dev": "npm-run-all cp:dev serve",
-    "prod": "npm-run-all cp:prod serve"
+    "prod": "npm-run-all cp:prod serve",
+    "test": "mocha"
   },
   "author": "Caleb Thompson",
   "license": " ",
   "dependencies": {
+    "async": "^2.3.0",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "express-vue": "^3.9.11",
     "memory-cache": "^0.1.6",
     "request": "^2.81.0",
+    "sync-request": "^4.0.2",
     "vue": "^2.0.0-rc.3",
     "vue-resource": "^1.3.1",
-    "vue-server-renderer": "^2.0.0-rc.3"
+    "vue-server-renderer": "^2.0.0-rc.3",
+    "xml2json": "^0.11.0"
   },
   "devDependencies": {
     "nodemon": "^1.10.2",

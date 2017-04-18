@@ -31,7 +31,9 @@ app.use(express.static(path.join(__dirname, 'assets')))
 //APIs
 app.get('/api/races', apis.races.list)
 app.get('/api/races/:id', apis.races.get)
-app.get('/api/entry/:id', apis.entries.get)
+app.get('/api/entries/:id', apis.entries.get)
+app.get('/api/results/:id', apis.results.get)
+app.get('/api/odds/:id', apis.odds.get)
 
 var pageTitle = 'CF Tote Test';
 
@@ -46,7 +48,7 @@ app.get('/', function(req, res){
             head: {
                 title: pageTitle,
             },
-            components: ['races', 'entries']
+            components: ['races', 'entries', 'results']
           }
     }
 

@@ -3,7 +3,8 @@ var apiProxy = require('../proxies')
 
 exports.get = function get (req, res, next) {
   var id = req.params.id
-  var entry = myCache.cache.get(myCache.cacheKeys.ONEENTRY + id)
+  var result = myCache.cache.get(myCache.cacheKeys.ONERESULT + id)
+  console.log(result)
   res.type('json')
-  res.send(entry)
+  res.send(result)
 }
