@@ -1,7 +1,8 @@
 <template>
 <div>
   <div>Post Time: {{ race.postTime }}</div>
-   <table class='table'>
+
+  <table class='table'>
     <thead>
       <th> </th>
       <th>WIN</th>
@@ -10,19 +11,19 @@
     </thead>
     <tbody>
       <tr v-for="winner in race.results.WN">
-        <td>{{ winner.horse.PostPosition - winner.horse.HorseName }}</td>
+        <td>{{ winner.horse.PostPosition }} - {{ winner.horse.HorseName }}</td>
         <td>{{ winner.WN }}</td>
         <td>{{ winner.PL }}</td>
         <td>{{ winner.SH }}</td>
       </tr>
       <tr v-for="placer in race.results.PL">
-        <td>{{ winner.horse.PostPosition - winner.horse.HorseName }}</td>
+        <td>{{ placer.horse.PostPosition }} - {{ placer.horse.HorseName }}</td>
         <td></td>
         <td>{{ placer.PL }}</td>
         <td>{{ placer.SH }}</td>
       </tr>
       <tr v-for="shower in race.results.SH">
-        <td>{{ winner.horse.PostPosition - winner.horse.HorseName }}</td>
+        <td>{{ shower.horse.PostPosition }} - {{ shower.horse.HorseName }}</td>
         <td></td>
         <td></td>
         <td>{{ shower.SH }}</td>

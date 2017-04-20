@@ -42,13 +42,14 @@ app.get('/', function(req, res){
     var scope = {
         data: {
             title: pageTitle,
-            races: []
+            races: [],
+            winner : {}
         },
         vue: {
             head: {
                 title: pageTitle,
             },
-            components: ['races', 'activeraces', 'recentraces']
+            components: ['races', 'activeraces', 'recentraces', 'upcomingraces']
           }
     }
 

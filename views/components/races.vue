@@ -17,7 +17,8 @@
 		<div class="tab-content">
 			 <div role="tabpanel" class="tab-pane active" id='active'>
          <div class='row'>
-           <ul class="nav nav-tabs" role="tablist">
+           <div v-if="!this.races.activeRaces || this.races.activeRaces.length === 0">No Active Races to display.</div>
+           <ul class="nav nav-pills" role="tablist">
                <li v-for='race in this.races.activeRaces' role="presentation" >
                    <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
                </li>
@@ -33,7 +34,8 @@
       </div> <!--end activeRaces-->
       <div role="tabpanel" class="tab-pane" id='upcoming'>
         <div class='row'>
-          <ul class="nav nav-tabs" role="tablist">
+          <div v-if="!this.races.upcomingRaces || this.races.upcomingRaces.length === 0">No Upcoming Races to display.</div>
+          <ul class="nav nav-pills" role="tablist">
               <li v-for='race in this.races.upcomingRaces' role="presentation" >
                   <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
               </li>
@@ -42,14 +44,15 @@
       <div class='row'>
         <div class="tab-content">
            <div v-for='race in this.races.upcomingRaces' role="tabpanel" class="tab-pane" :id="'race-' + race.id">
-
+             <upcomingraces v-bind:race="race"></upcomingraces>
            </div>
          </div>
        </div>
      </div> <!--end upcomingRaces-->
      <div role="tabpanel" class="tab-pane" id='recent'>
         <div class='row'>
-          <ul class="nav nav-tabs" role="tablist">
+          <div v-if="!this.races.recentRaces || this.races.recentRaces.length === 0">No Recent Races to display.</div>
+          <ul class="nav nav-pills" role="tablist">
               <li v-for='race in this.races.recentRaces' role="presentation" >
                   <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
               </li>
