@@ -1,278 +1,111 @@
 var assert = require('assert');
 var myCache = require('../cache')
 var proxies = require('../proxies')
-var parser = require('xml2json')
+var td = require('./testdata')
 
-var testRaces = [{RaceNum: 1, PostTime: "2017-04-17T09:45:00-07:00"}, {RaceNum: 2, PostTime: "2017-04-17T23:02:00-07:00"}]
-myCache.cache.put(myCache.cacheKeys.ALLRACES, testRaces)
+td.getTestData()
 
-var testOdds = "<OddsResponse><RaceNum>1</RaceNum><MinutesToPost>0</MinutesToPost><WinOdds><Entries><Entry><ProgramNumber>1</ProgramNumber><TextOdds> 8/5</TextOdds></Entry><Entry><ProgramNumber>2</ProgramNumber><TextOdds> 3/1</TextOdds></Entry><Entry><ProgramNumber>3</ProgramNumber><TextOdds> 11/1</TextOdds></Entry><Entry><ProgramNumber>4</ProgramNumber><TextOdds> 24/1</TextOdds></Entry><Entry><ProgramNumber>5</ProgramNumber><TextOdds> 34/1</TextOdds></Entry><Entry><ProgramNumber>6</ProgramNumber><TextOdds> 42/1</TextOdds></Entry><Entry><ProgramNumber>7</ProgramNumber><TextOdds> 5/2</TextOdds></Entry><Entry><ProgramNumber>8</ProgramNumber><TextOdds> 49/1</TextOdds></Entry><Entry><ProgramNumber>9</ProgramNumber><TextOdds> 6/1</TextOdds></Entry></Entries></WinOdds></OddsResponse>"
-myCache.cache.put(myCache.cacheKeys.ODDS + "1", parser.toJson(testOdds, {object:true}))
+proxies.buildCustomRaceObject()
+var result = myCache.cache.get(myCache.cacheKeys.CUSTOM)
 
-var testOddsNo = "<OddsResponse><RaceNum>8</RaceNum><MinutesToPost>99</MinutesToPost><WinOdds><Entries></Entries></WinOdds></OddsResponse>"
-myCache.cache.put(myCache.cacheKeys.ODDS + "2", parser.toJson(testOddsNo, {object:true}))
+console.log('*****', result)
 
-var testEntries = {
-RaceNum: 1,
-Entries: [
-{
-ProgramNumber: "1",
-PostPosition: 9,
-HorseName: "Clever Trevor",
-ML: "15/1",
-Jockey: "Bradley, Ira J.",
-Weight: "119 Lbs",
-Trainer: "Childers, Gary",
-Medication: "L",
-MedWeight: 119,
-Sire: "PETIONVILLE",
-Dam: "SO EMOTIONAL",
-Color: "CH",
-Age: 7,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "FLORENCE M KNIGHT",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "1A",
-PostPosition: 10,
-HorseName: "AlwaysABaddy",
-ML: "9/2",
-Jockey: "15/1",
-Weight: "119 Lbs",
-Trainer: "Childers, Gary",
-Medication: "L",
-MedWeight: 119,
-Sire: "BADDY DADDY",
-Dam: "ALWAYSASTUNNER",
-Color: "B",
-Age: 8,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "FLORENCE M KNIGHT",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "2",
-PostPosition: 1,
-HorseName: "Sister Mary Sary",
-ML: "9/2",
-Jockey: "Thomas, Megan D.",
-Weight: "119 Lbs",
-Trainer: "Lamar L. Walters",
-Medication: "L",
-MedWeight: 119,
-Sire: "LEMON DROP KID",
-Dam: "PLEASANT MATE",
-Color: "DKBR",
-Age: 8,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "SOCORRO D. LINDNER",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "3",
-PostPosition: 2,
-HorseName: "Mr Garde",
-ML: "15/1",
-Jockey: "Tedesco, Reyna B.",
-Weight: "119 Lbs",
-Trainer: "Karen K. Brown",
-Medication: "L",
-MedWeight: 119,
-Sire: "JAZIL",
-Dam: "SONG OF CONFIDENCE",
-Color: "CH",
-Age: 5,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "KAREN BROWN",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "4",
-PostPosition: 3,
-HorseName: "Corinthians Secret",
-ML: "7/2",
-Jockey: "Anderson, Quinton L.",
-Weight: "119 Lbs",
-Trainer: "Brenda G Smith",
-Medication: "L",
-MedWeight: 119,
-Sire: "CORINTHIAN",
-Dam: "DREAM LUCK",
-Color: "GR/RO",
-Age: 4,
-Sex: "G",
-BreedingLocation: "IL",
-Owner: "Marie V Sandoval",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "5",
-PostPosition: 4,
-HorseName: "Aish Tamid",
-ML: "10/1",
-Jockey: "Elizabeth S. Lucas",
-Weight: "119 Lbs",
-Trainer: "Margaret R. Baumgardner",
-Medication: "L",
-MedWeight: 119,
-Sire: "PURIM",
-Dam: "FIRST LIGHT",
-Color: "B",
-Age: 5,
-Sex: "G",
-BreedingLocation: "ON",
-Owner: "ERIC T KNAPP",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "6",
-PostPosition: 5,
-HorseName: "Chicot Bay",
-ML: "15/1",
-Jockey: "Williams, Kathryn L.",
-Weight: "116 Lbs",
-Trainer: "Arias, Frank K.",
-Medication: "L",
-MedWeight: 116,
-Sire: "DOCTOR MIKE",
-Dam: "MY SUNSHINE",
-Color: "B",
-Age: 6,
-Sex: "G",
-BreedingLocation: "LA",
-Owner: "TODD S. ALVARADO",
-ClaimingPrice: 0
-},
-{
-ProgramNumber: "7",
-PostPosition: 6,
-HorseName: "Sunwave",
-ML: "8/1",
-Jockey: "Adams, Richard A.",
-Weight: "116 Lbs",
-Trainer: "Banks, Homer T.",
-Medication: "L",
-MedWeight: 116,
-Sire: "SUN KING",
-Dam: "HUMBOLDT BELLE",
-Color: "CH",
-Age: 5,
-Sex: "G",
-BreedingLocation: "LA",
-Owner: "HAGGAMAN &amp; ASSOCIATES, INC",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "8",
-PostPosition: 7,
-HorseName: "Calipari's Kitten",
-ML: "3/1",
-Jockey: "Na, Inez D.",
-Weight: "119 Lbs",
-Trainer: "Roper, Dorothy G.",
-Medication: "L",
-MedWeight: 119,
-Sire: "KITTEN'S JOY",
-Dam: "MISS BERGDORF",
-Color: "B",
-Age: 7,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "MARY W. PETERSEN",
-ClaimingPrice: 5000
-},
-{
-ProgramNumber: "9",
-PostPosition: 8,
-HorseName: "Chad Be Glad",
-ML: "4/1",
-Jockey: "Padroza, Marcelino",
-Weight: "116 Lbs",
-Trainer: "Gibson, Jonas",
-Medication: "L",
-MedWeight: 119,
-Sire: "GLAD TIDINGS",
-Dam: "CHADDES",
-Color: "CH",
-Age: 7,
-Sex: "C",
-BreedingLocation: "KY",
-Owner: "ROBT B EVANOFF",
-ClaimingPrice: 5000
-}
-]
-}
-myCache.cache.put(myCache.cacheKeys.ONEENTRY + "1", testEntries)
-
-var testEntries2 = {
-RaceNum: 2,
-Entries: [
-{
-ProgramNumber: "100",
-PostPosition: 9,
-HorseName: "Clever Trevor",
-Jockey: "Bradley, Ira J.",
-Weight: "119 Lbs",
-Trainer: "Childers, Gary",
-Medication: "L",
-MedWeight: 119,
-Sire: "PETIONVILLE",
-Dam: "SO EMOTIONAL",
-Color: "CH",
-Age: 7,
-Sex: "G",
-BreedingLocation: "KY",
-Owner: "FLORENCE M KNIGHT",
-ClaimingPrice: 5000
-}
-]
-}
-myCache.cache.put(myCache.cacheKeys.ONEENTRY + "2", testEntries2)
-
-var testResults = "<ResultsResponse><RaceNum>1</RaceNum><Entries><Entry><ProgramNumber>5</ProgramNumber><Pools><Pool><PoolType>WN</PoolType><Base>1</Base><Value>2.4</Value></Pool><Pool><PoolType>PL</PoolType><Base>1</Base><Value>3.5</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.5</Value></Pool></Pools></Entry><Entry><ProgramNumber>2</ProgramNumber><Pools><Pool><PoolType>PL</PoolType><Base>1</Base><Value>5.63</Value></Pool><Pool><PoolType>SH</PoolType><Base>1</Base><Value>4.11</Value></Pool></Pools></Entry><Entry><ProgramNumber>1</ProgramNumber><Pools><Pool><PoolType>SH</PoolType><Base>1</Base><Value>3.45</Value></Pool></Pools></Entry></Entries></ResultsResponse>"
-myCache.cache.put(myCache.cacheKeys.ONERESULT + "1", parser.toJson(testResults, {object:true}))
-
-var testResultsNo = "<ResultsResponse><RaceNum>2</RaceNum><Entries></Entries><Message>Results not ready.</Message></ResultsResponse>"
-myCache.cache.put(myCache.cacheKeys.ONERESULT + "2", parser.toJson(testResultsNo, {object:true}))
-
-var result = proxies.buildCustomRaceObject()
-
-console.log(result)
-
-describe('buildCustomRaceObject()', function() {
+describe('Testing the buildCustomRaceObject() function.', function() {
 	describe('the combined object...', function() {
+		it ('should contain 3 races', function() {
+			assert.equal(1, result.recentRaces.length)
+			assert.equal(1, result.upcomingRaces.length)
+			assert.equal(1, result.activeRaces.length)
+		})
+	})
+	describe('the activeRace object...', function() {
+
+		var activeRace = result.activeRaces[0]
+
 		it('should have the right id', function() {
-			assert.equal('1', result.id)
+			assert.equal(activeRace.id, '3')
 		})
 		it('should have a posttime', function() {
-			assert.equal('2017-04-17T09:45:00-07:00', result.postTime)
+			assert.equal(activeRace.postTime, '2017-04-19T23:02:00-07:00')
 		})
 		it('should have odds', function() {
-			assert.equal(true, result.hasOdds)
-			assert.equal(true, result.hasML)
+			assert.equal(activeRace.hasOdds, true)
+			assert.equal(activeRace.hasML, true)
 		})
-		it('should have 8 entries', function() {
-			assert.equal(10, result.entries.length)
+		it('should have 1 entry', function() {
+			assert.equal(1, activeRace.entries.length)
 		})
 		it('should have complete entries', function() {
-			assert.equal('1', result.entries[0].ProgramNumber)
-			assert.equal('8/5', result.entries[0].odds)
-			assert.deepEqual({ PoolType: 'SH', Base: '1', Value: '3.45' }, result.entries[0].result)
+			assert.equal(activeRace.entries[0].ProgramNumber, '101')
+			assert.equal(activeRace.entries[0].odds, '8/5')
+
+			assert.deepEqual(activeRace.entries[0].result, undefined)
+		})
+		it('should not have a results object', function() {
+			assert.equal(activeRace.hasResults, false)
+			assert.deepEqual(activeRace.results, { WN: [], PL: [], SH: [] })
+			})
+	})
+
+	describe('the upcomingRace object...', function() {
+
+		var upcomingRace = result.upcomingRaces[0]
+
+		it('should have the right id', function() {
+			assert.equal(upcomingRace.id, '2')
+		})
+		it('should have a posttime', function() {
+			assert.equal(upcomingRace.postTime, '2017-04-18T23:02:00-07:00')
+		})
+		it('should have odds', function() {
+			assert.equal(upcomingRace.hasOdds, false)
+			assert.equal(upcomingRace.hasML, false)
+		})
+		it('should have 1 entry', function() {
+			assert.equal(upcomingRace.entries.length, 1)
+		})
+		it('should have complete entries', function() {
+			assert.equal(upcomingRace.entries[0].ProgramNumber, '100')
+			assert.equal(upcomingRace.entries[0].odds, undefined)
+			assert.deepEqual(upcomingRace.entries[0].result, undefined)
+		})
+		it('should not have a results object', function() {
+			assert.equal(upcomingRace.hasResults, false)
+			assert.deepEqual(upcomingRace.results, { WN: [], PL: [], SH: [] })
+		})
+	})
+
+	describe('the recentRace object...', function() {
+
+		var recentRace = result.recentRaces[0]
+
+		it('should have the right id', function() {
+			assert.equal(recentRace.id, '1')
+		})
+		it('should have a posttime', function() {
+			assert.equal(recentRace.postTime, '2017-04-17T09:45:00-07:00')
+		})
+		it('should have odds', function() {
+			assert.equal(recentRace.hasOdds, false)
+			assert.equal(recentRace.hasML, true)
+		})
+		it('should have 10 entries', function() {
+			assert.equal(10, recentRace.entries.length)
+		})
+		it('should have complete entries', function() {
+			assert.equal(recentRace.entries[0].ProgramNumber, '1')
+			assert.equal(recentRace.entries[0].odds, undefined)
+
+			assert.deepEqual({ PoolType: 'SH', Base: '1', Value: '3.45' }, recentRace.entries[0].result)
 		})
 		it('should have a results object', function() {
-			assert.equal(true, result.hasResults)
-			assert.deepEqual({ WN: [ 5 ], PL: [ 2 ], SH: [ 1 ] }, result.results)
-			assert.equal(5, result.results.WN[0])
-			assert.equal(2, result.results.PL[0])
-			assert.equal(1, result.results.SH[0])
+			assert.equal(recentRace.hasResults, true)
+			assert.equal(recentRace.results.WN[0].horse.ProgramNumber, '5')
+			assert.equal(recentRace.results.WN[0].WN, '2.4')
+			assert.equal(recentRace.results.WN[0].PL, '3.5')
+			assert.equal(recentRace.results.WN[0].SH, '4.5')
 		})
-
-
 	})
+
 
 })

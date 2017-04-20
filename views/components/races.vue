@@ -1,65 +1,93 @@
 <template lang='html'>
 <div class='container'>
   <div class='row'>
-      <ul class="nav nav-tabs" role="tablist">
-          <li v-for='race in races' role="presentation" >
-              <a v-bind:href="'#race-' + race.RaceNum" v-bind:aria-controls="'race-' + race.RaceNum" role="tab" data-toggle="tab">{{ race.RaceNum }}</a>
-          </li>
-      </ul>
-  </div>
-  <div class='row'>
-    <div class="tab-content">
-        <!-- 
-          we have 3 different views here:
-            active = odds but no results, OR no odds or results but ML: (hasResults == false && hasOdss == true) || 
-            upcoming = no odds no results: (hasResults == false && hasOdds == false)
-            recent = (hasResults==true)
-            
-
-            race.hasOdds = bool
-            race.hasResults = bool 
-
-        -->
-       <div v-for='race in races' role="tabpanel" class="tab-pane" :id="'race-' + race.RaceNum">
-
+			<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" >
+							<a href='#active' role="tab" data-toggle="tab">Active Races</a>
+					</li>
+					<li role="presentation" >
+							<a href='#upcoming' role="tab" data-toggle="tab">Upcoming Races</a>
+					</li>
+					<li role="presentation" >
+							<a href='#recent' role="tab" data-toggle="tab">Recent Races</a>
+					</li>
+			</ul>
+	</div>
+	<div class='row'>
+		<div class="tab-content">
+			 <div role="tabpanel" class="tab-pane active" id='active'>
+         <div class='row'>
+           <ul class="nav nav-tabs" role="tablist">
+               <li v-for='race in this.races.activeRaces' role="presentation" >
+                   <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
+               </li>
+           </ul>
+       </div>
+       <div class='row'>
+         <div class="tab-content">
+            <div v-for='race in this.races.activeRaces' role="tabpanel" class="tab-pane" :id="'race-' + race.id">
+              <activeraces v-bind:race="race"></activeraces>
+            </div>
+          </div>
         </div>
-
+      </div> <!--end activeRaces-->
+      <div role="tabpanel" class="tab-pane" id='upcoming'>
+        <div class='row'>
+          <ul class="nav nav-tabs" role="tablist">
+              <li v-for='race in this.races.upcomingRaces' role="presentation" >
+                  <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
+              </li>
+          </ul>
       </div>
-  </div>
-</div>
+      <div class='row'>
+        <div class="tab-content">
+           <div v-for='race in this.races.upcomingRaces' role="tabpanel" class="tab-pane" :id="'race-' + race.id">
+
+           </div>
+         </div>
+       </div>
+     </div> <!--end upcomingRaces-->
+     <div role="tabpanel" class="tab-pane" id='recent'>
+        <div class='row'>
+          <ul class="nav nav-tabs" role="tablist">
+              <li v-for='race in this.races.recentRaces' role="presentation" >
+                  <a v-bind:href="'#race-' + race.id" role="tab" data-toggle="tab">{{ race.id }}</a>
+              </li>
+          </ul>
+      </div>
+      <div class='row'>
+        <div class="tab-content">
+           <div v-for='race in this.races.recentRaces' role="tabpanel" class="tab-pane" :id="'race-' + race.id">
+              <recentraces v-bind:race="race"></recentraces>
+           </div>
+         </div>
+       </div>
+     </div> <!--end recentRaces-->
+    </div>
+  </div> <!--end row-->
+</div> <!-- end container-->
+
 </template>
 
 <script>
-
 export default {
-    props: ['races', 'custom'],
+    props: ['emptyRaces', 'races'],
     methods: {
-      getCustomRaceObject() {
-        var tempArr = [{}] //hack - gets around races not being 0-based
-
-          for (var r=0; r < this.races.length; r++) {
-            this.$http.get('/api/custom/' + this.races[r].RaceNum).then(response => {
-             tempArr.splice(r, 1, response.body)
-              }, response => {
-                console.log('Error getting Custom object')
-              });
-          }
-          this.custom = tempArr
-      }
     },
     mounted: function() {
       this.$nextTick(function () {
-          this.$http.get('/api/races').then(response => {
-            this.races = response.body
-            this.getEntries()
-            this.getResults()
-          }, response => {
-            console.log('Error getting Races')
-          });
+
+        console.log('mounted')
+      //  var tempArr = [{}] //hack - gets around races not being 0-based
+        this.$http.get('/api/custom').then(response => {
+          this.races = response.body
+          console.log(this.races)
+        }, response => {
+          console.log('Error getting Custom object')
+        });
       })
+
+
     }
 }
 </script>
-
-<style lang='css'>
-</style>

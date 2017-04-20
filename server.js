@@ -18,13 +18,13 @@ var express = require('express')
 var expressVue = require('express-vue')
 var app = express()
 
-app.engine('vue', expressVue);
-app.set('view engine', 'vue');
-app.set('views', path.join(__dirname, '/views'));
+app.engine('vue', expressVue)
+app.set('view engine', 'vue')
+app.set('views', path.join(__dirname, '/views'))
 app.set('vue', {
     componentsDir: path.join(__dirname, '/views/components'),
     defaultLayout: 'layout'
-});
+})
 
 app.use(express.static(path.join(__dirname, 'assets')))
 
@@ -34,34 +34,35 @@ app.get('/api/races/:id', apis.races.get)
 app.get('/api/entries/:id', apis.entries.get)
 app.get('/api/results/:id', apis.results.get)
 app.get('/api/odds/:id', apis.odds.get)
-app.get('/api/custom/:id', apis.custom.get)
+app.get('/api/custom/', apis.custom.get)
 
-var pageTitle = 'Wutsgotcha Downs';
+var pageTitle = 'Wutsgotcha Downs'
 
 app.get('/', function(req, res){
     var scope = {
         data: {
             title: pageTitle,
-            races: [],
-            entries: []
+            races: []
         },
         vue: {
             head: {
                 title: pageTitle,
             },
-            components: ['races', 'custom']
+            components: ['races', 'activeraces', 'recentraces']
           }
     }
 
-    res.render('index', scope);
-});
+    res.render('index', scope)
+})
 
 app.listen(8081, function (error) {
 
   //fetch all data on start
   var proxies = require('./proxies')
-  proxies.fetchAllData()
+  proxies.fetchAllData(function () {
+    var myCache = require('./cache')
+  })
 
   if (error) throw error
-  console.log('Server is running at localhost:8080')
+  console.log('Server is running at localhost:8081')
 })

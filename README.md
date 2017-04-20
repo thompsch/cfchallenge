@@ -13,3 +13,14 @@ When the cached items expire (*not* when ENVIRONMENT=dev), the proxy classes cal
 All UI is currently out-of-the-box Bootstrap CSS. Easily replaced with CSS files in the /assets/css folder.
 
 
+### to run this app
+clone this repository
+npm install
+npm start _or_ node server
+in a browser, hit http://localhost:8081
+
+## testing
+
+run npm test. There are 19 unit tests.
+
+### to deploy this app to EB

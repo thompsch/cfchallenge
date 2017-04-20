@@ -1,4 +1,4 @@
-var nodecache = require("memory-cache")
+var nodecache = require('memory-cache')
 
 exports.cache = nodecache
 

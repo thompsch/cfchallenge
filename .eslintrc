@@ -1,4 +1,9 @@
 {
   "globals": {
     "_": true
-  }}
+  },
+  "rules": {
+        "semi": ["error", "never"],
+        "quotes": ["error", "single"]
+  }
+    }

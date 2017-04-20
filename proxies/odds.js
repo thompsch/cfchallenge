@@ -12,10 +12,10 @@ var races = myCache.cache.get(myCache.cacheKeys.ALLRACES)
 	}, function(err) {
     if( err ) {
       console.log('Failed to get a race odds.')
-      cb(err)
+      return cb(err)
     } else {
       console.log('All race odds have been processed successfully.')
-      cb()
+      return cb()
     }
 	});
 }
