@@ -36,6 +36,10 @@ app.get('/api/results/:id', apis.results.get)
 app.get('/api/odds/:id', apis.odds.get)
 app.get('/api/custom/', apis.custom.get)
 
+//VUE views
+
+
+
 var pageTitle = 'Wutsgotcha Downs'
 
 app.get('/', function(req, res){
@@ -55,6 +59,24 @@ app.get('/', function(req, res){
 
     res.render('index', scope)
 })
+
+app.get('/horse/:id', function(req, res){
+    var scope = {
+        data: {
+            title: 'Horse details',
+            horseid: req.params.id
+        },
+        vue: {
+            head: {
+                title: 'Horse details',
+            },
+            components: ['horsedetails']
+          }
+    }
+
+    res.render('horseindex', scope)
+})
+
 
 app.listen(8081, function (error) {
 

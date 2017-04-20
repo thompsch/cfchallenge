@@ -1,8 +1,8 @@
 <template lang="html">
     <div class='container'>
         <h1>{{title}}</h1>
-      
-        <races :races="races"></races>
+
+        <horsedetails :horseid="horseid"></horsedetails>
     </div>
 </template>
 

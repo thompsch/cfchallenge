@@ -36,6 +36,30 @@ function fetchResult(id, callback) {
 		  if (!error && response.statusCode == 200) {
 
 		  	var result = parser.toJson(body, {object:true})
+
+				//for each result, format as $x.xx
+				if (result.ResultsResponse.Entries.Entry) {
+
+						for (var e =0; e < result.ResultsResponse.Entries.Entry.length; e++) {
+
+							if (!Array.isArray(result.ResultsResponse.Entries.Entry[e].Pools.Pool)) {
+
+								var v = parseFloat(result.ResultsResponse.Entries.Entry[e].Pools.Pool.Value)
+								result.ResultsResponse.Entries.Entry[e].Pools.Pool.Value =  '$' + v.toFixed(2)
+							} else {
+
+								for (var p = 0; p < result.ResultsResponse.Entries.Entry[e].Pools.Pool.length; p ++) {
+
+									if (result.ResultsResponse.Entries.Entry[e].Pools.Pool[p].Value) {
+										var v = parseFloat(result.ResultsResponse.Entries.Entry[e].Pools.Pool[p].Value)
+										result.ResultsResponse.Entries.Entry[e].Pools.Pool[p].Value = '$' + v.toFixed(2)
+
+									}
+							}
+						}
+					}
+				}
+
 		  	var cacheId = myCache.cacheKeys.ONERESULT + id
 
 				if (process.env.ENVIRONMENT=='prod') {
@@ -56,7 +80,7 @@ function fetchResult(id, callback) {
 		  	console.log('Error fetching results. statusCode:' + response.statusCode)
 		  	callback(response.statusCode)
 		  }
-		
+
 		})
 }
 

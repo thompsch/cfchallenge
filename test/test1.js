@@ -104,7 +104,7 @@ describe('Testing the buildCustomRaceObject() function.', function() {
 			assert.equal(recentRace.results.WN[0].WN, '2.4')
 			assert.equal(recentRace.results.WN[0].PL, '3.5')
 			assert.equal(recentRace.results.WN[0].SH, '4.5')
-		})
+			})
 	})
 
 

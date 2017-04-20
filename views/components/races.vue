@@ -79,18 +79,12 @@ export default {
     },
     mounted: function() {
       this.$nextTick(function () {
-
-        console.log('mounted')
-      //  var tempArr = [{}] //hack - gets around races not being 0-based
         this.$http.get('/api/custom').then(response => {
           this.races = response.body
-          console.log(this.races)
         }, response => {
           console.log('Error getting Custom object')
         });
       })
-
-
     }
 }
 </script>
