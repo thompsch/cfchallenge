@@ -50,11 +50,15 @@ function buildCustomRaceObject(cb) {
 		var oddsLookup = createOddsLookupTable(cre)
 		var resultsLookup = createResultsLookupTable(cre)
 
-		var entries = myCache.cache.get(myCache.cacheKeys.ONEENTRY + race.RaceNum)
+		var eTemp = myCache.cache.get(myCache.cacheKeys.ONEENTRY + race.RaceNum)
+		var entries = eTemp.Entries
 
-		for (var e = 0; e < entries.Entries.length; e ++) {
-			var newEntry = entries.Entries[e]
+		entries.sort(function(a, b) {
+	    return a.PostPosition - b.PostPosition;
+		})
 
+		for (var e = 0; e < entries.length; e ++) {
+			var newEntry = entries[e]
 
 			if (newEntry.ML != null && newEntry.ML != '') cre.hasML = true
 

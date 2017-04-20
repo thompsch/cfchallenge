@@ -93,10 +93,17 @@ describe('Testing the buildCustomRaceObject() function.', function() {
 			assert.equal(10, recentRace.entries.length)
 		})
 		it('should have complete entries', function() {
-			assert.equal(recentRace.entries[0].ProgramNumber, '1')
+			assert.equal(recentRace.entries[0].ProgramNumber, '2')
+			assert.equal(recentRace.entries[1].ProgramNumber, '3')
+			assert.equal(recentRace.entries[2].ProgramNumber, '4')
+			assert.equal(recentRace.entries[3].ProgramNumber, '5')
+			assert.equal(recentRace.entries[4].ProgramNumber, '6')
+			assert.equal(recentRace.entries[8].ProgramNumber, '1')
+			assert.equal(recentRace.entries[9].ProgramNumber, '1A')
+
 			assert.equal(recentRace.entries[0].odds, undefined)
 
-			assert.deepEqual({ PoolType: 'SH', Base: '1', Value: '3.45' }, recentRace.entries[0].result)
+			assert.deepEqual({ PoolType: 'SH', Base: '1', Value: '3.45' }, recentRace.entries[8].result)
 		})
 		it('should have a results object', function() {
 			assert.equal(recentRace.hasResults, true)

@@ -19,8 +19,7 @@ As a sign of my jumping in and working from the BE up, I started by caching each
 ## More work to be done
 This is an MVP proof of concept. Obviously we'd want to spend some time on the fit-and-finish, adding branding, images, etc.
 ### dev work
-- Sort entries by PostPosition. Actually, make the table sortable.
-- Implement Also Ran / Scratched functionality
+- Implement the Also Ran / Scratched functionality
 - More unit test coverage: proxies (need to refactor to take in a mock url)
 
 ### features
@@ -31,6 +30,7 @@ In addition, I think the following would be cool:
 - If there are no Upcoming or Recent races, we could hide those "tabs", rather that display the generic "no current races" messages.
 - Format race time to something more friendly.
 - Add search, especially if we want to have a view that displays horses and their details.
+- Make the tables sortable.
 - I'm sure a 30 minute brainstorm with smart people will extend this list further...
 
 ## To run this app locally

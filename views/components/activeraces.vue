@@ -5,9 +5,9 @@
       <div class="panel-body"><span class='h4'>ENTRIES</span>
         <table class='table table-striped table-condensed'>
           <thead>
-            <th>Position</th>
-            <th>Horse</th>
-            <th>Current Odds</th>
+            <th class="col-md-1">Position</th>
+            <th class="col-md-6">Horse</th>
+            <th class="col-md-1">Current Odds</th>
           </thead>
           <tbody>
             <tr v-for="entry in race.entries">
