@@ -119,8 +119,8 @@ function buildCustomRaceObject(cb) {
 function createResultsLookupTable(cre) {
 	var results = myCache.cache.get(myCache.cacheKeys.ONERESULT + cre.id)
 	var tempTable = []
-	if(results != null && results.ResultsResponse.Entries != null && results.ResultsResponse.Message == null) {
-		//We have results, so this goes in recentRaces
+
+	if(results != null && results.ResultsResponse.Entries != null && results.ResultsResponse.Entries.Entry != null && results.ResultsResponse.Entries.Entry.length > 0) {
 			var rTemp = results.ResultsResponse.Entries.Entry
 			for (var r = 0; r < rTemp.length; r ++) {
 				var pool = rTemp[r].Pools.Pool
