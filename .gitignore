@@ -3,6 +3,7 @@ node_modules
 assets/vue.js
 npm-debug.log
 .idea
+.env
 
 /node_nodules
 /builds
